@@ -7,7 +7,7 @@ Install Flask (Use link- https://flask.palletsprojects.com/en/stable/installatio
 -- 2) Create a virtual environment on the created folder from number 2 above:
 for windows, run this below on your cmd:
 
-        > mkdir myproject        git revert 4012c92
+        > mkdir myproject   
         > cd myproject
         > py -3 -m venv .venv
 
