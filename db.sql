@@ -1,3 +1,4 @@
+-- CREATE TABLE FOR USERS
 CREATE TABLE users (
     user_id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
@@ -5,12 +6,14 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
+-- CREATE TABLE FOR GROUPS
 CREATE TABLE groups (
     group_id INTEGER PRIMARY KEY,
     group_name TEXT NOT NULL,
     group_description TEXT
 );
 
+-- CREATE TABLE FOR PAYMENTS
 CREATE TABLE payments (
     payment_id INTEGER PRIMARY KEY,
     group_id INTEGER NOT NULL,
@@ -21,6 +24,7 @@ CREATE TABLE payments (
     FOREIGN KEY (group_id) REFERENCES groups (group_id)
 );
 
+-- CREATE TABLE FOR TASKS
 CREATE TABLE tasks (
     task_id INTEGER PRIMARY KEY,
     group_id INTEGER NOT NULL,
@@ -30,6 +34,7 @@ CREATE TABLE tasks (
     FOREIGN KEY (group_id) REFERENCES groups (group_id)
 );
 
+-- CREATE INTERSECTION TABLE FOR PAYMENTS AND USERS
 CREATE TABLE payments_users (
     payment_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
@@ -37,6 +42,7 @@ CREATE TABLE payments_users (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
+-- CREATE INTERSECTION TABLE FOR TASKS AND USERS
 CREATE TABLE tasks_users (
     task_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
@@ -44,6 +50,7 @@ CREATE TABLE tasks_users (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
+-- CREATE INTERSECTION TABLE FOR USERS AND GROUPS
 CREATE TABLE users_groups (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
