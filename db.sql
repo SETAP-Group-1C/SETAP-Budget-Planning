@@ -1,0 +1,52 @@
+CREATE TABLE users (
+    user_id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE groups (
+    group_id INTEGER PRIMARY KEY,
+    group_name TEXT NOT NULL,
+    group_description TEXT
+);
+
+CREATE TABLE payments (
+    payment_id INTEGER PRIMARY KEY,
+    group_id INTEGER NOT NULL,
+    payment_name TEXT NOT NULL,
+    payment_description TEXT,
+    payment_deadline TEXT NOT NULL,
+    payment_amount REAL NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES groups (group_id)
+);
+
+CREATE TABLE tasks (
+    task_id INTEGER PRIMARY KEY,
+    group_id INTEGER NOT NULL,
+    task_name TEXT NOT NULL,
+    task_description TEXT,
+    task_deadline TEXT NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES groups (group_id)
+);
+
+CREATE TABLE payments_users (
+    payment_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (payment_id) REFERENCES payments (payment_id),
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE tasks_users (
+    task_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (task_id) REFERENCES tasks (task_id),
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE users_groups (
+    user_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id),
+    FOREIGN KEY (group_id) REFERENCES groups (group_id)
+);
