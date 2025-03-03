@@ -10,50 +10,51 @@ from werkzeug.exceptions import abort
 from .auth import login_required
 from .db import get_db
 
-bp = Blueprint("blog", __name__)
+bp = Blueprint("groups", __name__)
 
 
 @bp.route("/")
 def index():
     """Show all the groups."""
     db = get_db()
-    posts = db.execute(
-        "SELECT g.group_id, g.group_name, g.group_description, "
-        " FROM groups g"
+    groups = db.execute(
+        "SELECT g.group_id, g.group_name, g.group_description, g.group_id, ug.user_id"
+        " FROM groups g JOIN users_groups ug ON g.group_id = ug.group_id"
     ).fetchall()
-    return render_template("groups/index.html", posts=posts)
+    return render_template("groups/index.html", groups=groups)
 
 
-def get_post(id, check_author=True):
-    """Get a post and its author by id.
+def get_group(group_id, check_creator=True):
+    """Get a group and its creator by id.
 
     Checks that the id exists and optionally that the current user is
-    the author.
+    the creator.
 
-    :param id: id of post to get
-    :param check_author: require the current user to be the author
-    :return: the post with author information
-    :raise 404: if a post with the given id doesn't exist
-    :raise 403: if the current user isn't the author
+    :param id: id of group to get
+    :param check_author: require the current user to be the creator
+    :return: the group with creator information
+    :raise 404: if a group with the given id doesn't exist
+    :raise 403: if the current user isn't the creator
     """
-    post = (
+    group = (
         get_db()
         .execute(
-            "SELECT p.id, title, body, created, author_id, username"
-            " FROM post p JOIN user u ON p.author_id = u.id"
-            " WHERE p.id = ?",
-            (id,),
+            "SELECT g.group_id, g.group_name, g.group_description, ug.user_id, u.username"
+            " FROM groups g JOIN users_groups ug ON g.group_id = ug.group_id"
+            " JOIN users u ON ug.user_id = u.user_id"
+            " WHERE g.group_id = ?",
+            (group_id,),
         )
         .fetchone()
     )
 
-    if post is None:
-        abort(404, f"Post id {id} doesn't exist.")
+    if group is None:
+        abort(404, f"Group id {group_id} doesn't exist.")
 
-    if check_author and post["author_id"] != g.user["id"]:
+    if check_creator and group["ug.user_id"] != g.users["user_id"]:
         abort(403)
 
-    return post
+    return group
 
 
 @bp.route("/create", methods=("GET", "POST"))
@@ -61,19 +62,19 @@ def get_post(id, check_author=True):
 def create():
     """Create a new post for the current user."""
     if request.method == "POST":
-        title = request.form["title"]
-        body = request.form["body"]
+        group_name = request.form["group_name"]
+        group_description = request.form["group_description"]
         error = None
 
-        if not title:
-            error = "Title is required."
+        if not group_name:
+            error = "Group name is required."
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                "INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)",
+                "INSERT INTO groups (group_name, group_description) VALUES (?, ?)",
                 (title, body, g.user["id"]),
             )
             db.commit()
