@@ -39,7 +39,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = (
-            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+            get_db().execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
         )
 
 
@@ -52,26 +52,29 @@ def register():
     """
     if request.method == "POST":
         username = request.form["username"]
+        email = request.form['email']
         password = request.form["password"]
         db = get_db()
         error = None
 
         if not username:
             error = "Username is required."
+        elif not email:
+            error = "Email is required."
         elif not password:
             error = "Password is required."
 
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (username, email, password) VALUES (?, ?, ?)",
+                    (username, email, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
-                # The username was already taken, which caused the
+                # The email was already taken, which caused the
                 # commit to fail. Show a validation error.
-                error = f"User {username} is already registered."
+                error = f"Account with email {email} is already registered."
             else:
                 # Success, go to the login page.
                 return redirect(url_for("auth.login"))
@@ -85,16 +88,16 @@ def register():
 def login():
     """Log in a registered user by adding the user id to the session."""
     if request.method == "POST":
-        username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
         db = get_db()
         error = None
         user = db.execute(
-            "SELECT * FROM user WHERE username = ?", (username,)
+            "SELECT * FROM users WHERE email = ?", (email,)
         ).fetchone()
 
         if user is None:
-            error = "Incorrect username."
+            error = "Incorrect email."
         elif not check_password_hash(user["password"], password):
             error = "Incorrect password."
 
