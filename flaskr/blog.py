@@ -15,14 +15,13 @@ bp = Blueprint("blog", __name__)
 
 @bp.route("/")
 def index():
-    """Show all the posts, most recent first."""
+    """Show all the groups."""
     db = get_db()
     posts = db.execute(
-        "SELECT p.id, title, body, created, author_id, username"
-        " FROM post p JOIN user u ON p.author_id = u.id"
-        " ORDER BY created DESC"
+        "SELECT g.group_id, g.group_name, g.group_description, "
+        " FROM groups g"
     ).fetchall()
-    return render_template("blog/index.html", posts=posts)
+    return render_template("groups/index.html", posts=posts)
 
 
 def get_post(id, check_author=True):
