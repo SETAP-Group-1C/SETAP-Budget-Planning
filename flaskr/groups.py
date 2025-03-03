@@ -75,12 +75,14 @@ def create():
             db = get_db()
             db.execute(
                 "INSERT INTO groups (group_name, group_description) VALUES (?, ?)",
-                (title, body, g.user["id"]),
+                (group_name, group_description),
+                "INSERT INTO users_groups (user_id, group_id, group_creator) VALUES (?, ?, ?)",
+                (g.users['user_id'], g.groups['group_id'], 'Y')
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("groups.index"))
 
-    return render_template("blog/create.html")
+    return render_template("groups/create.html")
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
