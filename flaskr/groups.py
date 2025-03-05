@@ -59,7 +59,9 @@ def get_group(group_id, check_creator=True):
 
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
-def create():
+def create(group_id):
+    group = get_group(group_id)
+
     """Create a new post for the current user."""
     if request.method == "POST":
         group_name = request.form["group_name"]
@@ -77,12 +79,12 @@ def create():
                 "INSERT INTO groups (group_name, group_description) VALUES (?, ?)",
                 (group_name, group_description),
                 "INSERT INTO users_groups (user_id, group_id, group_creator) VALUES (?, ?, ?)",
-                (g.user['user_id'], g.group['group_id'], 'Y')
+                (g.user['user_id'], group_id, 'Y')
             )
             db.commit()
             return redirect(url_for("groups.index"))
 
-    return render_template("groups/create.html")
+    return render_template("groups/create.html", group=group)
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
