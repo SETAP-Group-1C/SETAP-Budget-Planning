@@ -87,41 +87,41 @@ def create():
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
 @login_required
-def update(id):
+def update(group_id):
     """Update a post if the current user is the author."""
-    post = get_post(id)
+    group = get_group(group_id)
 
     if request.method == "POST":
-        title = request.form["title"]
-        body = request.form["body"]
+        group_name = request.form["group_name"]
+        group_description = request.form["group_description"]
         error = None
 
-        if not title:
-            error = "Title is required."
+        if not group_name:
+            error = "Group name is required."
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                "UPDATE post SET title = ?, body = ? WHERE id = ?", (title, body, id)
+                "UPDATE groups SET group_name = ?, group_description = ? WHERE group_id = ?", (group_name, group_description, group_id)
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("groups.index"))
 
-    return render_template("blog/update.html", post=post)
+    return render_template("groups/update.html", group=group)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
-def delete(id):
+def delete(group_id):
     """Delete a post.
 
     Ensures that the post exists and that the logged in user is the
     author of the post.
     """
-    get_post(id)
+    get_group(group_id)
     db = get_db()
-    db.execute("DELETE FROM post WHERE id = ?", (id,))
+    db.execute("DELETE FROM groups WHERE group_id = ?", (group_id,))
     db.commit()
-    return redirect(url_for("blog.index"))
+    return redirect(url_for("groups.index"))
