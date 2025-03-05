@@ -77,7 +77,7 @@ def create():
                 "INSERT INTO groups (group_name, group_description) VALUES (?, ?)",
                 (group_name, group_description),
                 "INSERT INTO users_groups (user_id, group_id, group_creator) VALUES (?, ?, ?)",
-                (g.user['user_id'], g.groups['group_id'], 'Y')
+                (g.user['user_id'], g.group['group_id'], 'Y')
             )
             db.commit()
             return redirect(url_for("groups.index"))
