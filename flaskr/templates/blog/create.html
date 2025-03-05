@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
+  <h1>{% block title %}New Group{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <label for="group_name">Group Name</label>
+    <input name="group_name" id="group_name" value="{{ request.form['group_name'] }}" required>
+    <label for="body">Group Description</label>
+    <textarea name="group_description" id="group_description">{{ request.form['group_description'] }}</textarea>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+  <h1>{% block title %}Edit "{{ groups['group_name'] }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] or post['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    <label for="group_name">Group Name</label>
+    <input name="group_name" id="group_name" value="{{ request.form['group_name'] or groups['group_name'] }}" required>
+    <label for="group_description">Group Description</label>
+    <textarea name="group_description" id="group_description">{{ request.form['group_description'] or groups['group_description'] }}</textarea>
     <input type="submit" value="Save">
   </form>
   <hr>
-  <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+  <form action="{{ url_for('groups.delete', id=groups['group_id']) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>
 {% endblock %}
