@@ -83,7 +83,7 @@ def create():
             db.commit()
             group_id = (db.execute(
                 "SELECT last_insert_rowid()"
-            ).fetchone())
+            ).fetchone()[0])
             db.execute(
                 "INSERT INTO users_groups (user_id, group_id, group_creator) VALUES (?, ?, ?)",
                 (g.user['user_id'], group_id, 'Y')
