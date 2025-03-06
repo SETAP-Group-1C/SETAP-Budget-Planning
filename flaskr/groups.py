@@ -53,7 +53,7 @@ def get_group(group_id, check_creator=True):
     if group is None:
         abort(404, f"Group id {group_id} doesn't exist.")
 
-    if check_creator and group["ug.user_id"] != g.user["user_id"]:
+    if check_creator and group["user_id"] != g.user["user_id"]:
         abort(403)
 
     return group
