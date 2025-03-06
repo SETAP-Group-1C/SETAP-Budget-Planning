@@ -41,7 +41,7 @@ def get_group(group_id, check_creator=True):
     group = (
         get_db()
         .execute(
-            "SELECT g.group_id, g.group_name, g.group_description, ug.user_id, u.username"
+            "SELECT g.group_id, g.group_name, g.group_description, ug.user_id, ug.group_creator, u.username"
             " FROM groups g JOIN users_groups ug ON g.group_id = ug.group_id"
             " JOIN users u ON ug.user_id = u.user_id"
             " WHERE g.group_id = ?",
@@ -53,7 +53,7 @@ def get_group(group_id, check_creator=True):
     if group is None:
         abort(404, f"Group id {group_id} doesn't exist.")
 
-    if check_creator and group["ug.user_id"] != g.users["user_id"]:
+    if check_creator and group["ug.user_id"] != g.user["user_id"]:
         abort(403)
 
     return group
