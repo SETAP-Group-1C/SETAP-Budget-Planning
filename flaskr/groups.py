@@ -91,6 +91,7 @@ def create():
             db.commit()
             return redirect(url_for("groups.index"))
 
+    print(group_description, group_name, group_id)
     return render_template("groups/create.html")
 
 
