@@ -13,7 +13,6 @@
       <header>
         <div>
           <h1>{{ groups['group_name'] }}</h1>
-          <!-- <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div> -->
         </div>
         {% if g.user['id'] == users_groups['user_id'] and users_groups['group_creator'] == 'Y' %}
           <a class="action" href="{{ url_for('groups.update', id=groups['group_id']) }}">Edit</a>
