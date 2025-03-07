@@ -68,7 +68,7 @@ CREATE TABLE tasks_users (
 CREATE TABLE users_groups (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    group_creator TEXT NOT NULL
+    group_creator TEXT NOT NULL,
     CHECK (group_creator IN ('Y', 'N')),
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES groups (group_id) ON DELETE CASCADE
