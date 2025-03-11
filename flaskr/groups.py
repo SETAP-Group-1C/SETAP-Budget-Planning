@@ -57,9 +57,6 @@ def get_group(group_id, check_creator=True):
     if check_creator and group["user_id"] != g.user["user_id"]:
         abort(403)
 
-    for row in group:
-        print(dict(row))
-
     return group
 
 
