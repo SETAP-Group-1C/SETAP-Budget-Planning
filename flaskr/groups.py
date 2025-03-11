@@ -94,7 +94,7 @@ def create():
     return render_template("groups/create.html")
 
 
-@bp.route("/<int:id>/update", methods=("GET", "POST"))
+@bp.route("/<int:group_id>/update", methods=("GET", "POST"))
 @login_required
 def update(group_id):
     """Update a post if the current user is the author."""
@@ -121,7 +121,7 @@ def update(group_id):
     return render_template("groups/update.html", group=group)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@bp.route("/<int:group_id>/delete", methods=("POST",))
 @login_required
 def delete(group_id):
     """Delete a post.
