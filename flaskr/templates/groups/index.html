@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}GROUPS{% endblock %}</h1>
+  <h1>{% block title %}Groups{% endblock %}</h1>
   {% if g.user %}
     <a class="action" href="{{ url_for('groups.create') }}">New</a>
   {% endif %}
