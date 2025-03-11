@@ -118,9 +118,6 @@ def update(group_id):
             )
             db.commit()
             return redirect(url_for("groups.index"))
-    
-    for row in group:
-        print(dict(row))
 
     return render_template("groups/update.html", group=group)
 
