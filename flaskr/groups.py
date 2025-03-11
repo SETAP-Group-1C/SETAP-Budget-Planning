@@ -23,7 +23,7 @@ def index():
         # " WHERE ug.user_id = ?",
         # (g.user['user_id'])
     ).fetchall()
-    for row in db:
+    for row in groups:
         print(row)
     return render_template("groups/index.html", groups=groups)
 
