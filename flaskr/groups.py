@@ -134,3 +134,7 @@ def delete(group_id):
     db.execute("DELETE FROM groups WHERE group_id = ?", (group_id,))
     db.commit()
     return redirect(url_for("groups.index"))
+
+ug_table_check = get_db().execute("SELECT * FROM users_groups").fetchall()
+for row in ug_table_check:
+    print(dict(row))
