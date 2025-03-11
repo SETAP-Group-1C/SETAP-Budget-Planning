@@ -24,7 +24,7 @@ def index():
         # (g.user['user_id'])
     ).fetchall()
     for row in groups:
-        print(row)
+        print(dict(row))
     return render_template("groups/index.html", groups=groups)
 
 
