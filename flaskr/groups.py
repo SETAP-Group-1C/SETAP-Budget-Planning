@@ -20,8 +20,8 @@ def index():
     groups = db.execute(
         "SELECT g.group_id, g.group_name, g.group_description, g.group_id, ug.user_id"
         " FROM groups g JOIN users_groups ug ON g.group_id = ug.group_id"
-        " WHERE ug.user_id = ?",
-        (g.user['user_id'])
+        # " WHERE ug.user_id = ?",
+        # (g.user['user_id'])
     ).fetchall()
     return render_template("groups/index.html", groups=groups)
 
