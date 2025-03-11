@@ -23,9 +23,7 @@ def index():
         # " WHERE ug.user_id = ?",
         # (g.user['user_id'])
     ).fetchall()
-    ug_table_check = get_db().execute("SELECT * FROM users_groups").fetchall()
-    for row in ug_table_check:
-        print(dict(row))
+
     return render_template("groups/index.html", groups=groups)
 
 
@@ -120,6 +118,9 @@ def update(group_id):
             )
             db.commit()
             return redirect(url_for("groups.index"))
+    
+    for row in group:
+        print(dict(row))
 
     return render_template("groups/update.html", group=group)
 
