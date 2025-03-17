@@ -17,13 +17,12 @@ bp = Blueprint("groups", __name__)
 @login_required
 def index():
     """Show all the groups that the user is in."""
+
     db = get_db()
     groups = db.execute(
         "SELECT g.group_id, g.group_name, g.group_description, g.group_id, ug.user_id, ug.group_creator, u.username"
         " FROM groups g JOIN users_groups ug ON g.group_id = ug.group_id"
         " JOIN users u ON u.user_id = ug.user_id"
-        # " WHERE ug.user_id = ?",
-        # (g.user['user_id'])
     ).fetchall()
 
     return render_template("groups/index.html", groups=groups)
