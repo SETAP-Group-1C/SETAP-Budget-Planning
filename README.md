@@ -7,4 +7,5 @@ up2209423-  #172305972
 up2214717 - #150632514
 up2216916 - #123462017
 
+flask --app flaskr init-db
 flask --app flaskr run --debug
