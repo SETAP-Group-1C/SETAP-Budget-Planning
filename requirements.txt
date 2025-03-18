@@ -30,3 +30,13 @@ for mac, run this:
 pip install flask (other flask dependencies would be installed automatically)
 There are optional dependencies which we could consider later.
 
+
+To run the flask project:
+
+-- initialise database first:
+                        flask --app flaskr init-db
+
+-- Then run flask
+                        flask --app flaskr run --debug
+
+
