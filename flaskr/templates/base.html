@@ -15,10 +15,13 @@
 </nav>
 <section class="content">
   <header>
+    <!-- Placeholder for child template content-- See register.html (in between these template blocks)-->
+    <!-- as in {% block header %} here is the placeholder {% endblock %} -->
     {% block header %}{% endblock %}
   </header>
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}
+  <!-- Placeholder for child template content-- See register.html -->
   {% block content %}{% endblock %}
 </section>

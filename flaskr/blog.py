@@ -56,7 +56,8 @@ def get_post(id, check_author=True):
 
     return post
 
-
+# This is why the page directly takes you to auth/login.html when you load
+# Needed for first time users, so as to take them straight to the login page.
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
@@ -110,7 +111,7 @@ def update(id):
     return render_template("blog/update.html", post=post)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@bp.route("/<int:id>/delete", methods=("POST",)) 
 @login_required
 def delete(id):
     """Delete a post.
